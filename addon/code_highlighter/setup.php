@@ -2,6 +2,14 @@
 if(!defined('__AFOX__')) exit();
 ?>
 
+<div class="form-group">
+	<label class="checkbox" tabindex="0">
+		<input type="checkbox" name="pre-wrap" value="1" <?php echo !empty($_ADDON['pre-wrap'])?'checked':''?>>
+		<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+		코드를 자동 줄바꿈 합니다.
+	</label>
+</div>
+<br>
 <h3>사용 예제:</h3>
 <pre>
 &lt;pre code-lang="cpp"&gt; 

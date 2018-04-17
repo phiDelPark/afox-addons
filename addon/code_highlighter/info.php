@@ -1,7 +1,7 @@
 <?php
 if(!defined('__AFOX__')) exit();
 
-$_ADDON_INFO['version'] = "1.0";
+$_ADDON_INFO['version'] = "1.1";
 $_ADDON_INFO['author'] = "aFox";
 $_ADDON_INFO['email'] = "support@afox.kr";
 $_ADDON_INFO['link'] = "http://afox.kr";

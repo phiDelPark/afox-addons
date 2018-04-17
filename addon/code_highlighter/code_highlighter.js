@@ -8,6 +8,14 @@
   'use strict';
 
 	$(window).on('load', function() {
+		var js = $('script[src^="'+request_uri+'addon/code_highlighter/code_highlighter.js?"]:eq(0)'),
+			pre_wrap = false;
+
+		if(js.length>0) {
+			js = js.attr('src').getQuery();
+			if((js['w'] || '0') == '1') pre_wrap = true;
+		}
+
 		$('pre[code-lang]').each(
 			function(i, block) {
 				var $this = $(this);
@@ -16,6 +24,7 @@
 				}
 				var lang = $this.attr('code-lang') || 'auto';
 				if(lang && lang != 'auto') $this.addClass('language-' + lang);
+				pre_wrap ? $this.addClass('wrap') : $this.removeAttr('wrap');
 				hljs.highlightBlock(block);
 			}
 		);

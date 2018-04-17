@@ -26,3 +26,7 @@ pre[collapse][code-lang]:after {
 	-o-transform:scale(7,.7); /* Opera */
 	transform:scale(7,.7); /* W3C */
 }
+
+pre.wrap {
+	white-space: pre-wrap;
+}
