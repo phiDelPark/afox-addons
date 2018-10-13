@@ -27,6 +27,54 @@ pre[collapse][code-lang]:after {
 	transform:scale(7,.7); /* W3C */
 }
 
-pre.wrap {
+pre[code-lang].wrap {
 	white-space: pre-wrap;
+}
+
+.hljs {
+	padding: 0.7em;
+}
+
+h3.hljs-title {
+	display: block;
+	padding: 0.7em;
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.42857143;
+	word-break: break-all;
+	word-wrap: break-word;
+	background-color: #333;
+	border: 1px solid #000;
+	border-radius: 4px 4px 0 0;
+	border-bottom-width: 0;
+	color: #fff;
+}
+
+h3.hljs-title+pre[code-lang] {
+	margin-top: 0;
+	border-radius: 0 0 4px 4px;
+}
+
+/* for block of numbers */
+td.hljs-ln-numbers {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	text-align: center;
+	color: #ccc;
+	border-right: 1px solid #CCC;
+	vertical-align: top;
+	padding-right: 5px;
+	white-space: nowrap;
+
+	/* your custom style here */
+}
+
+/* for block of code */
+td.hljs-ln-code {
+	padding-left: 0.7em;
 }

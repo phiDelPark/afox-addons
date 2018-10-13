@@ -4,14 +4,14 @@ if(!defined('__AFOX__')) exit();
 
 <div class="form-group">
 	<label class="checkbox" tabindex="0">
-		<input type="checkbox" name="auto-highlight" value="1" <?php echo !empty($_ADDON['auto-highlight'])?'checked':''?>>
-		<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
-		 태그 [pre > code]를 만나면 자동으로 적용하기
-	</label>
-	<label class="checkbox" tabindex="0">
 		<input type="checkbox" name="pre-wrap" value="1" <?php echo !empty($_ADDON['pre-wrap'])?'checked':''?>>
 		<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
 		코드를 자동 줄바꿈 합니다.
+	</label>
+	<label class="checkbox" tabindex="0">
+		<input type="checkbox" name="auto-highlight" value="1" <?php echo !empty($_ADDON['auto-highlight'])?'checked':''?>>
+		<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+		 [PRE > CODE] 태그를 만나면 자동 적용
 	</label>
 </div>
 <br>

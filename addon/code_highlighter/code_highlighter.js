@@ -23,9 +23,20 @@
 					$this.offOn('click', function(e){ $this.removeAttr('collapse'); });
 				}
 				var lang = $this.attr('code-lang') || 'auto';
+				var title = $this.attr('title') || '';
 				if(lang && lang != 'auto') $this.addClass('language-' + lang);
 				pre_wrap ? $this.addClass('wrap') : $this.removeAttr('wrap');
 				hljs.highlightBlock(block);
+				if(title){
+					$this.removeAttr('title');
+					$this.before( '<h3 class="hljs-title">&deg;&nbsp;' + title + '</h3>' );
+				}
+			}
+		);
+
+		$('pre[code-lang][number]').each(
+			function(i, block) {
+				hljs.lineNumbersBlock(block);
 			}
 		);
 	});

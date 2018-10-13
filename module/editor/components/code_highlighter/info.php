@@ -1,7 +1,7 @@
 <?php
 if(!defined('__AFOX__')) exit();
 
-$_COMPONENT_INFO['version'] = "1.0";
+$_COMPONENT_INFO['version'] = "1.1";
 $_COMPONENT_INFO['author'] = "aFox";
 $_COMPONENT_INFO['email'] = "support@afox.kr";
 $_COMPONENT_INFO['link'] = "http://afox.kr";

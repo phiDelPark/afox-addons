@@ -17,7 +17,7 @@ if(!defined('__AFOX__')) exit();
 	<div style="margin:10px">
 		<h4><?php echo $_COMPONENT_INFO['title'] ?></h4>
 		<hr style="margin:10px 0 20px">
-		<p><span style="width:80px;display:inline-block">코드 타입 : </span> <select name="lang" required>
+		<p><span style="width:80px;display:inline-block">코드 타입 : </span> <select name="lang" required style="width:200px">
 			<option value="auto">Auto</option>
 			<option value="apache">Apache</option>
 			<option value="bash">Bash</option>
@@ -43,8 +43,9 @@ if(!defined('__AFOX__')) exit();
 			<option value="sql">SQL</option>
 			<option value="xml">HTML / XML</option>
 		</select></p>
-		<p><span style="width:80px;display:inline-block">코드 타입 : </span>
-			<input type="text" name="title">
+		<p><span style="width:80px;display:inline-block">제목 : </span>
+			<input type="text" name="title" style="width:200px">&nbsp;&nbsp;&nbsp;&nbsp;
+			<label style="padding:2px;display:inline-block"><input type="checkbox" name="number" value="1"> 줄번호 표시</label>
 		</p>
 		<textarea style="width:100%;height:250px"></textarea>
 	</div>
@@ -84,8 +85,10 @@ if(!defined('__AFOX__')) exit();
 			var $wc = $_selem ? $_selem : $_codes.eq(index),
 				$tareas = $('textarea'),
 				title = $wc.attr('title') || '',
+				number = $wc.attr('number') || 0,
 				lang = $wc.attr('code-lang') || 'auto';
 			$('[name="title"]').val(title);
+			$('[name="number"]').prop("checked", number > 0);
 			$('[name="lang"]').val(lang);
 			$tareas.eq(0).val($wc.text().trim());
 		}
@@ -96,6 +99,7 @@ if(!defined('__AFOX__')) exit();
 	function code_highlighter_run() {
 		var $tareas = $('textarea').eq(0),
 			title = ($('[name="title"]').val() || '').replace('"', '`'),
+			number = $('[name="number"]').is(":checked") ? 1 : 0,
 			lang = $('[name="lang"]').val() || 'auto',
 			index = $('.code_highlighter_editor').attr('data-index'),
 			html;
@@ -104,15 +108,16 @@ if(!defined('__AFOX__')) exit();
 			$wc.text($tareas.val());
 			$wc.attr('code-lang', lang);
 			title ? $wc.attr('title', title) : $wc.removeAttr('title');
+			number > 0 ? $wc.attr('number', number) : $wc.removeAttr('number');
 			if($iframe.length > 0) {
 				if(!$_selem) $iframe.contents().find('body').html($orihtml.html());
 			}else {
 				$txtara.val($orihtml.text());
 			}
 		} else {
-			html = '<pre code-lang="%s"%s>%s ' + "\n" + '</pre>' + "\n";
+			html = '<pre code-lang="%s"%s%s>%s ' + "\n" + '</pre>' + "\n";
 			$editor.paste(
-				html.sprintf(lang, title ? ' title="'+title+'"' : '',
+				html.sprintf(lang, title ? ' title="'+title+'"' : '', number > 0 ? ' number="'+number+'"' : '',
 					($tareas.val().escapeHtml() || ('/* 이 아래로 코드 입력 */' + "\n" + "\n"))
 				),
 				false
