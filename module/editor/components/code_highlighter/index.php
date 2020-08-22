@@ -45,7 +45,7 @@ if(!defined('__AFOX__')) exit();
 		</select></p>
 		<p><span style="width:80px;display:inline-block">제목 : </span>
 			<input type="text" name="title" style="width:200px">&nbsp;&nbsp;&nbsp;&nbsp;
-			<label style="padding:2px;display:inline-block"><input type="checkbox" name="number" value="1"> 줄번호 표시</label>
+			<label style="padding:2px;display:inline-block"><input type="checkbox" name="number" value="1" checked> 줄번호 표시</label>
 		</p>
 		<textarea style="width:100%;height:250px"></textarea>
 	</div>
@@ -88,7 +88,7 @@ if(!defined('__AFOX__')) exit();
 				number = $wc.attr('number') || 0,
 				lang = $wc.attr('code-lang') || 'auto';
 			$('[name="title"]').val(title);
-			$('[name="number"]').prop("checked", number > 0);
+			$('[name="number"]').prop("checked", index === 0 || number > 0);
 			$('[name="lang"]').val(lang);
 			$tareas.eq(0).val($wc.text().trim());
 		}
