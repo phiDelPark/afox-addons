@@ -107,7 +107,18 @@ if(!defined('__AFOX__')) exit();
 			var $wc = $_selem ? $_selem : $_codes.eq(index);
 			$wc.text($tareas.val());
 			$wc.attr('code-lang', lang);
-			title ? $wc.attr('title', title) : $wc.removeAttr('title');
+			$prev = $wc.prev();
+			if(title){
+				$wc.attr('title', title);
+				if($prev.is('[code-title]')){
+					$prev.html(title);
+				}else{
+					$wc.before('<div code-title>'+title+'</div>');
+				}
+			 }else{
+				$wc.removeAttr('title');
+				if($prev.is('[code-title]')) $prev.remove();
+			 }
 			number > 0 ? $wc.attr('number', number) : $wc.removeAttr('number');
 			if($iframe.length > 0) {
 				if(!$_selem) $iframe.contents().find('body').html($orihtml.html());
@@ -115,9 +126,9 @@ if(!defined('__AFOX__')) exit();
 				$txtara.val($orihtml.text());
 			}
 		} else {
-			html = '<pre code-lang="%s"%s%s>%s ' + "\n" + '</pre>' + "\n";
+			html = '%s<pre code-lang="%s"%s%s>%s ' + "\n" + '</pre>' + "\n";
 			$editor.paste(
-				html.sprintf(lang, title ? ' title="'+title+'"' : '', number > 0 ? ' number="'+number+'"' : '',
+				html.sprintf(title ? '<div code-title>'+title+'</div>' : '', lang, title ? ' title="'+title+'"' : '', number > 0 ? ' number="'+number+'"' : '',
 					($tareas.val().escapeHtml() || ('/* 이 아래로 코드 입력 */' + "\n" + "\n"))
 				),
 				false

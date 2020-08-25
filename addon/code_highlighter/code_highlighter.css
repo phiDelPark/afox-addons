@@ -35,7 +35,7 @@ pre[code-lang].wrap {
 	padding: 0.7em;
 }
 
-h3.hljs-title {
+div[code-title] {
 	display: block;
 	padding: 0.7em;
 	margin: 0;
@@ -50,7 +50,7 @@ h3.hljs-title {
 	color: #fff;
 }
 
-h3.hljs-title+pre[code-lang] {
+div[code-title]+pre[code-lang] {
 	margin-top: 0;
 	border-radius: 0 0 4px 4px;
 }

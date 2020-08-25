@@ -26,10 +26,7 @@
 				var title = $this.attr('title') || '';
 				if(lang && lang != 'auto') $this.addClass('language-' + lang);
 				pre_wrap ? $this.addClass('wrap') : $this.removeAttr('wrap');
-				if(title){
-					$this.removeAttr('title');
-					$this.before( '<h3 class="hljs-title">&deg;&nbsp;' + title + '</h3>' );
-				}
+				if(title) $this.removeAttr('title');
 				hljs.highlightBlock(block);
 			}
 		);
