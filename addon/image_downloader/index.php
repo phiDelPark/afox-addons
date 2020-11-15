@@ -47,7 +47,20 @@ if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !
 						return $m[1].$_check[$url];
 					}
 
-					@copy($url, $uploaded_filename);
+					// @copy($url, $uploaded_filename);
+					if(function_exists("curl_init") === true) {
+						$ch = curl_init($url);
+						$fp = fopen($uploaded_filename, 'wb');
+						curl_setopt($ch, CURLOPT_FILE, $fp);
+						curl_setopt($ch, CURLOPT_HEADER, 0);
+						curl_exec($ch);
+						curl_close($ch);
+						fclose($fp);
+					}
+					else if (function_exists("file_put_contents") === true) {
+						file_put_contents($uploaded_filename, file_get_contents($url));
+					}
+
 					if(file_exists($uploaded_filename)) {
 						@chmod($uploaded_filename, _AF_FILE_PERMIT_);
 
@@ -82,7 +95,7 @@ if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !
 			$doc['wr_content']
 		);
 
-		if($file_count > 0) {
+		if(count($_check) > 0 || $file_count > 0) {
 			DB::update(_AF_DOCUMENT_TABLE_, ['wr_content'=>$content,'wr_file'=>$file_count], ['wr_srl'=>$wr_srl]);
 		}
 	}
