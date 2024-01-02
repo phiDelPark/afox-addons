@@ -34,10 +34,10 @@
 			//$tg.width($el.width() - 31);
 			$tg.height($el.height() - 24);
 			$tg.find('[id=ev_item_caption]').val('');
-			$tg.find('[id=ev_item_count]').val('');
+			$tg.find('[id=ev_item_count]').val('1');
 			$tg.find('[id=ev_item_unit]').val('');
-			$tg.find('[id=ev_item_price]').val('');
-			$tg.find('[id=ev_item_tax]').val('');
+			$tg.find('[id=ev_item_price]').val('0');
+			$tg.find('[id=ev_item_tax]').val('0');
 			$tg.find('[id=ev_item_info]').val('');
 		};
 

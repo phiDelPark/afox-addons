@@ -30,33 +30,30 @@ function proc($data) {
 	</div>
 
 	<div class="form-group">
-		<div class="lable-left">
+		<div class='clearfix' style="padding:2px">
 			<input type="radio" id="contractChoice1" name="ev_status" value="0" <?php echo $DOC['ev_status']!='1'?'checked="checked"':'' ?> />
 			<label for="contractChoice1">예약</label>
-			<input type="text" name="ev_reserve" class="datepicker" value="<?php echo $DOC['ev_reserve'] ?>">
+			<input type="text" name="ev_reserve" class="datepicker pull-right" value="<?php echo $DOC['ev_reserve'] ?>">
 		</div>
-		<div class='clearfix' style="padding:2px"></div>
-		<div class="lable-left">
+		<div class='clearfix' style="padding:2px">
 			<input type="radio" id="finishedChoice1" name="ev_status" value="1" <?php echo $DOC['ev_status']=='1'?'checked="checked"':'' ?> />
 			<label for="finishedChoice1">완료</label>
-			<input type="text" name="ev_finish" class="datepicker" value="<?php echo $DOC['ev_finish'] ?>">
+			<input type="text" name="ev_finish" class="datepicker pull-right" value="<?php echo $DOC['ev_finish'] ?>">
 		</div>
 	</div>
 
 	<div class="form-group">
-		<div class="lable-left">
+		<div class='clearfix' style="padding:2px">
 		<label>총액</label>
-		<input type="text" name="ev_amount" id="totalMoney" class="input-number" readonly value="<?php echo $DOC['ev_amount'] ?>">
+		<input type="text" name="ev_amount" id="totalMoney" class="pull-right input-number" readonly value="<?php echo $DOC['ev_amount'] ?>">
 		</div>
-		<div class='clearfix' style="padding:2px"></div>
-		<div class="lable-left">
+		<div class='clearfix' style="padding:2px">
 		<label for="paymentMoney">결제</label>
-		<input type="number" name="ev_payment" id="paymentMoney" value="<?php echo $DOC['ev_payment'] ?>">
+		<input type="number" name="ev_payment" id="paymentMoney" class="pull-right" value="<?php echo $DOC['ev_payment'] ?>">
 		</div>
 	</div>
-	<div class='clearfix'></div>
 
-	<div class="form-group">
+	<div class="form-group clearfix">
 		<input type="radio" id="paymentType0" name="ev_paytype" value="1" <?php echo $DOC['ev_paytype']=='1'?'checked="checked"':'' ?> />
 		<label for="paymentType0">현금</label>
 		<input type="radio" id="paymentType1" name="ev_paytype" value="2" <?php echo $DOC['ev_paytype']=='2'?'checked="checked"':'' ?> />
@@ -105,33 +102,34 @@ function proc($data) {
 		?>
 		</ul>
 		</div>
-		<div id="ledger-item-panel" class="form-group modal-content" style="display:none">
-			<div>
+		<div id="ledger-item-panel" class="modal-content" style="display:none">
+			<div class="form-group">
 				<p><input type="text" id="ev_item_caption" style="width:100%" placeholder="품목명"></p>
 				<div class='clearfix' style="margin-top:16px;text-align:right">
-				<label for="ev_item_unit">단위</label>
-				<input type="text" id="ev_item_unit" style="width:80px;margin-left:10px">
-				<label for="ev_item_count" style="margin-left:10px">수량</label>
-				<input type="number" id="ev_item_count" style="width:130px;margin-left:10px">
+					<label for="ev_item_unit">단위</label>
+					<input type="text" id="ev_item_unit" style="width:50px;margin-left:8px">
+					<div class="pull-right">
+						<label for="ev_item_count" style="margin-left:10px">수량</label>
+						<input type="number" id="ev_item_count" style="width:80px;margin-left:8px">
+					</div>
 				</div>
-				<div class='clearfix' style="padding:2px"></div>
-				<div class="lable-left">
-				<label for="ev_item_price">금액</label>
-				<input type="number" id="ev_item_price">
+			<div class="form-group">
+			</div>
+				<div class='clearfix' style="padding:2px">
+					<label for="ev_item_price">금액</label>
+					<input type="number" id="ev_item_price" class="pull-right">
 				</div>
-				<div class='clearfix' style="padding:2px"></div>
-				<div class="lable-left">
-				<label for="ev_item_tax">세액</label>
-				<input type="number" id="ev_item_tax">
+				<div class='clearfix' style="padding:2px">
+					<label for="ev_item_tax">세액</label>
+					<input type="number" id="ev_item_tax" class="pull-right">
 				</div>
-				<div class='clearfix' style="margin-top:16px"></div>
-				<p><textarea id="ev_item_info" rows="2" maxlength="255" style="width:100%" placeholder="메모"></textarea></p>
+				<p class='clearfix' style="margin-top:16px"><textarea id="ev_item_info" rows="2" maxlength="255" style="width:100%" placeholder="메모"></textarea></p>
 			</div>
 			<div class="modal-footer">
-				<div class="pull-left"><button id="itemdelete" class="btn btn-warning" style="opacity:0.8;display:none"><i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i> <?php echo getLang('delete')?></button></div>
+				<div class="pull-left"><button id="itemdelete" class="btn btn-warning btn-sm" style="opacity:0.8;display:none"><i class="glyphicon glyphicon-remove-circle" aria-hidden="true"></i> <?php echo getLang('delete')?></button></div>
 				<div class="pull-right">
-				<button id="itemclose" class="btn btn-default"><?php echo getLang('close')?></button>
-				<button id="iteminsert" class="btn"><i class="glyphicon glyphicon-ok-circle" aria-hidden="true"></i> <?php echo getLang('insert')?></button>
+				<button id="itemclose" class="btn btn-default btn-sm"><?php echo getLang('close')?></button>
+				<button id="iteminsert" class="btn btn-sm"><i class="glyphicon glyphicon-ok-circle" aria-hidden="true"></i> <?php echo getLang('insert')?></button>
 				</div>
 			</div>
 		</div>
