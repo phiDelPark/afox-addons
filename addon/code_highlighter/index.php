@@ -5,6 +5,7 @@ if($called_position == 'after_disp' && $called_trigger == 'default' && !empty($_
 	if(!empty($_ADDON['auto-highlight'])){
 		$_DATA['wr_content'] = preg_replace('/(<pre(?:|\s*(?!(>|code-lang)).*?))(>[\s\t\r\n]*<code(?:|\s+[^>]*)>)/mi', '\1 code-lang="auto"\3', $_DATA['wr_content']);
 	}
+	/* https://highlightjs.org */
 	if(preg_match('/<pre[^>]*code-lang="[a-zA-Z0-9]+"/', $_DATA['wr_content'])){
 		addCSS('//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/default.min.css');
 		addJS('//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js');
