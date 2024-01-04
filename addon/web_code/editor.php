@@ -5,12 +5,13 @@ if(!_AF_EDITOR_NAME_){
 ?>
 <div id="web_code_panel" style="margin:20px"></div><script id="web_code_script"></script>
 <script>
-	var $_codes = $(opener.document).find('#bdView').find('blockquote[web-code="area"]'),
+	var idx = <?php echo $idx ?>,
+		$_codes = $(opener.document).find('#bdView').find('blockquote[web-code="area"]'),
 		$_panel = $('#web_code_panel'),
 		$_script = $('#web_code_script');
-	$(this.document.head).append('<style>' + $_codes.find('code[web-code="CSS"]').html().unescapeHtml() + '</style>');
-	$_panel.html($_codes.find('code[web-code="HTML"]').html().unescapeHtml());
-	$_script.html($_codes.find('code[web-code="SCRIPT"]').html().unescapeHtml());
+	$(this.document.head).append('<style>' + $_codes.eq(idx).find('code[web-code="css"]').text().unescapeHtml() + '</style>');
+	$_panel.html($_codes.eq(idx).find('code[web-code="html"]').text().unescapeHtml());
+	$_script.html($_codes.eq(idx).find('code[web-code="script"]').text().unescapeHtml());
 </script>
 <?php
 }else{
@@ -36,19 +37,19 @@ if(!_AF_EDITOR_NAME_){
 		<label style="padding:2px;display:inline-block">
 		HTML
 		</label>
-		<textarea data-key="HTML" style="width:100%;height:100px"></textarea>
+		<textarea data-key="html" style="width:100%;height:100px"></textarea>
 	</div>
 	<div style="margin:10px">
 		<label style="padding:2px;display:inline-block">
 		CSS
 		</label>
-		<textarea data-key="CSS" style="width:100%;height:100px"></textarea>
+		<textarea data-key="css" style="width:100%;height:100px"></textarea>
 	</div>
 	<div style="margin:10px">
 		<label style="padding:2px;display:inline-block">
 		SCRIPT
 		</label>
-		<textarea data-key="SCRIPT" style="width:100%;height:100px"></textarea>
+		<textarea data-key="script" style="width:100%;height:100px"></textarea>
 	</div>
 	<hr style="margin:20px 0 10px">
 	<div style="margin:10px;text-align:right">
@@ -85,9 +86,9 @@ if(!_AF_EDITOR_NAME_){
 		if($_selem || idx > -1) {
 			var $wc = $_selem ? $_selem : $_codes.eq(idx);
 			$('input[type="text"]').val($wc.find('cite').text());
-			$txta.eq(0).val($wc.find('code[web-code="HTML"]').text());
-			$txta.eq(1).val($wc.find('code[web-code="CSS"]').text());
-			$txta.eq(2).val($wc.find('code[web-code="SCRIPT"]').text());
+			$txta.eq(0).val($wc.find('code[web-code="html"]').text());
+			$txta.eq(1).val($wc.find('code[web-code="css"]').text());
+			$txta.eq(2).val($wc.find('code[web-code="script"]').text());
 		}
 		$('#web_code_selector').hide();
 		$('#web_code_editor').attr('data-index', idx).show();
@@ -100,15 +101,15 @@ if(!_AF_EDITOR_NAME_){
 		if($_selem || idx > -1) {
 			var $wc = $_selem ? $_selem : $_codes.eq(idx);
 			$wc.find('cite').text(title);
-			$wc.find('code[web-code="HTML"]').text($txta.eq(0).val());
-			$wc.find('code[web-code="CSS"]').text($txta.eq(1).val());
-			$wc.find('code[web-code="SCRIPT"]').text($txta.eq(2).val());
+			$wc.find('code[web-code="html"]').text($txta.eq(0).val());
+			$wc.find('code[web-code="css"]').text($txta.eq(1).val());
+			$wc.find('code[web-code="script"]').text($txta.eq(2).val());
 		} else {
 			var html = '',
-				tmp = '<pre>%s<code web-code="%s">%s ' + "\n" + '</code></pre>' + "\n";
+				tmp = '<pre><code web-code="%s">%s ' + "\n" + '</code></pre>' + "\n";
 			$txta.each(function(){
 				var t = $(this).attr('data-key');
-				html = html + tmp.sprintf(t + ':', t, $(this).val().escapeHtml())
+				html = html + tmp.sprintf(t, $(this).val().escapeHtml())
 			});
 			$editor.paste(
 				'<blockquote web-code="area"><cite>' + title.escapeHtml() + '</cite><hr>' + "\n"
