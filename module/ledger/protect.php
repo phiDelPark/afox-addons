@@ -9,7 +9,7 @@ $_PROTECT['proc.getdocumentform']				= ['grant' => 's'];
 $_PROTECT['proc.updatedocument']				= ['grant' => 's'];
 $_PROTECT['proc.deletedocument']				= ['grant' => 's'];
 
-$_PROTECT['disp.list']				= ['grant' => 's'];
+$_PROTECT['disp.default']				= ['grant' => 's'];
 
 /* End of file protect.php */
 /* Location: ./module/ledger/protect.php */

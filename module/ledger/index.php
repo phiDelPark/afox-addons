@@ -19,11 +19,11 @@ function procLedgerDefault($data) {
 }
 
 function dispLedgerDefault($data) {
-	$act = empty($data['disp']) ? 'list' : strtolower($data['disp']);
+	$disp = empty($data['disp']) ? 'default' : strtolower($data['disp']);
 	$dir = _AF_MODULES_PATH_ . 'ledger/disp/';
-	$inc_file = $dir . $act . '.php';
+	$inc_file = $dir . $disp . '.php';
 
-	if (($is=file_exists($inc_file)) && checkProtect('disp.'.$act)) {
+	if (($is=file_exists($inc_file)) && checkProtect('disp.'.$disp)) {
 		require_once $inc_file;
 		return proc($data);
 	} else {
