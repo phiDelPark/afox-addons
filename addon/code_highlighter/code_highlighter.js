@@ -8,34 +8,22 @@
   'use strict';
 
 	$(window).on('load', function() {
-		var js = $('script[src^="'+request_uri+'addon/code_highlighter/code_highlighter.js?"]:eq(0)'),
-			pre_wrap = false;
+		var js = $('script[src^="'+request_uri+'addon/code_highlighter/code_highlighter.js?"]:eq(0)');
+		if(js.length>0) js = js.attr('src').getQuery();
 
-		if(js.length>0) {
-			js = js.attr('src').getQuery();
-			if((js['w'] || '0') == '1') pre_wrap = true;
+		$('pre[highlight][collapse]')
+			.offOn('click', function(e){ $(this).removeAttr('collapse'); });
+
+		$('pre[highlight] code').each(
+			function(i, block) {
+				console.log(block)	;
+				hljs.highlightElement(block);
+			}
+		);
+
+		if((js['n'] || '1') == '1' && $('pre[highlight] code').length > 0) {
+			hljs.initLineNumbersOnLoad();
 		}
-
-		$('pre[code-lang]').each(
-			function(i, block) {
-				var $this = $(this);
-				if($this.is('[collapse]')) {
-					$this.offOn('click', function(e){ $this.removeAttr('collapse'); });
-				}
-				var lang = $this.attr('code-lang') || 'auto';
-				var title = $this.attr('title') || '';
-				if(lang && lang != 'auto') $this.addClass('language-' + lang);
-				pre_wrap ? $this.addClass('wrap') : $this.removeAttr('wrap');
-				if(title) $this.removeAttr('title');
-				hljs.highlightBlock(block);
-			}
-		);
-
-		$('pre[code-lang][number]').each(
-			function(i, block) {
-				hljs.lineNumbersBlock(block);
-			}
-		);
 	});
 
 }(jQuery);

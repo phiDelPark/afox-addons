@@ -14,33 +14,33 @@ if(!defined('__AFOX__')) exit();
 <div class="code_highlighter_editor" style="display:none">
 	<div style="margin:10px">
 		<p><span style="width:80px;display:inline-block">코드 타입 : </span> <select name="lang" required style="width:200px">
-			<option value="auto">Auto</option>
-			<option value="apache">Apache</option>
-			<option value="bash">Bash</option>
-			<option value="coffeescript">Coffee Script</option>
-			<option value="cpp">C++</option>
-			<option value="cs">C#</option>
-			<option value="css">CSS</option>
-			<option value="diff">Diff</option>
-			<option value="http">HTTP</option>
-			<option value="ini">Ini</option>
-			<option value="java">Java</option>
-			<option value="javascript">Java Script</option>
-			<option value="json">JSON</option>
-			<option value="makefile">Makefile</option>
-			<option value="markdown">Markdown</option>
-			<option value="nginx">Nginx</option>
-			<option value="objectivec">Objective-C</option>
-			<option value="perl">Perl</option>
-			<option value="php">PHP</option>
-			<option value="python">Python</option>
-			<option value="ruby">Ruby</option>
-			<option value="shell">Shell Session</option>
-			<option value="sql">SQL</option>
-			<option value="xml">HTML / XML</option>
-		</select></p>
-		<p>
-			<label style="padding:2px;display:inline-block"><input type="checkbox" name="number" value="1" checked> 줄번호 표시</label>
+			<option value="language-">Auto</option>
+			<option value="language-apache">Apache</option>
+			<option value="language-bash">Bash</option>
+			<option value="language-coffeescript">Coffee Script</option>
+			<option value="language-cpp">C++</option>
+			<option value="language-cs">C#</option>
+			<option value="language-css">CSS</option>
+			<option value="language-diff">Diff</option>
+			<option value="language-http">HTTP</option>
+			<option value="language-ini">Ini</option>
+			<option value="language-java">Java</option>
+			<option value="language-javascript">Java Script</option>
+			<option value="language-json">JSON</option>
+			<option value="language-makefile">Makefile</option>
+			<option value="language-markdown">Markdown</option>
+			<option value="language-nginx">Nginx</option>
+			<option value="language-objectivec">Objective-C</option>
+			<option value="language-perl">Perl</option>
+			<option value="language-php">PHP</option>
+			<option value="language-python">Python</option>
+			<option value="language-ruby">Ruby</option>
+			<option value="language-shell">Shell Session</option>
+			<option value="language-sql">SQL</option>
+			<option value="language-html">HTML / XML</option>
+		</select>
+		<input type="checkbox" name="code_collapse" id="id-code-collapse" style="margin-left:15px">
+		<label for="id-code-collapse">접기/펼치기</label>
 		</p>
 		<textarea style="width:100%;height:250px"></textarea>
 	</div>
@@ -55,10 +55,10 @@ if(!defined('__AFOX__')) exit();
 	var $editor = opener.AF_EDITOR_<?php echo _AF_EDITOR_NAME_ ?>,
 		$iframe = $editor.$element.find('iframe'),
 		$orihtml = $('<div>'+($iframe.length > 0 ? $iframe.contents().find('body').html() : $editor.$textarea.val())+'</div>');
-	var $_codes = $orihtml.find('pre[code-lang]');
+	var $_codes = $orihtml.find('pre[highlight] code');
 
 	if($iframe.length > 0) {
-		var $_selem,
+		var $_selem = null,
 			w = $iframe[0].contentWindow;
 		if (w) {
 			if (w.document.selection)
@@ -68,8 +68,8 @@ if(!defined('__AFOX__')) exit();
 				if (sel.rangeCount > 0)
 					$_selem = sel.getRangeAt(0).startContainer.parentNode;
 			}
-			$_selem = $($_selem);
-			if(($_selem.attr('code-lang')||'') == '') $_selem = null;
+			$_selem = $_selem.tagName == 'CODE' ? $($_selem) : null;
+			if($_selem != null && !$_selem.is('[class*=language-]')) $_selem = null;
 		}
 	}
 
@@ -78,10 +78,10 @@ if(!defined('__AFOX__')) exit();
 		if($_selem || idx > -1) {
 			var $wc = $_selem ? $_selem : $_codes.eq(idx),
 				$txta = $('textarea'),
-				n = $wc.attr('number') || 0,
-				lang = $wc.attr('code-lang') || 'auto';
-			$('[name="number"]').prop("checked", idx === 0 || n > 0);
+				cc = $wc.parent().attr('collapse') || 'false',
+				lang = $wc.attr('class') || 'language-';
 			$('[name="lang"]').val(lang);
+			$('[name="code_collapse"]').prop("checked", cc == 'true');
 			$txta.eq(0).val($wc.text().trim());
 		}
 		$('.code_highlighter_selector').hide();
@@ -90,28 +90,26 @@ if(!defined('__AFOX__')) exit();
 
 	function code_highlighter_run() {
 		var $txta = $('textarea').eq(0),
-			n = $('[name="number"]').is(":checked") ? 1 : 0,
-			lang = $('[name="lang"]').val() || 'auto',
+			lang = $('[name="lang"]').val() || 'language-',
 			idx = $('.code_highlighter_editor').attr('data-index'),
+			cc = $('[name="code_collapse"]').is(":checked") ? 1 : 0,
 			html;
 		if($_selem || idx > -1) {
 			var $wc = $_selem ? $_selem : $_codes.eq(idx);
 			$wc.text($txta.val());
-			$wc.attr('code-lang', lang);
+			$wc.attr('class', lang);
+			cc === 0 ? $wc.parent().attr('collapse', true) : $wc.parent().removeAttr('collapse');
 			$prev = $wc.prev();
-			n > 0 ? $wc.attr('number', n) : $wc.removeAttr('number');
 			if($iframe.length > 0) {
 				if(!$_selem) $iframe.contents().find('body').html($orihtml.html());
 			}else {
 				$txta.val($orihtml.text());
 			}
 		} else {
-			html = '<pre code-lang="%s"%s>%s ' + "\n" + '</pre>' + "\n";
-			$editor.paste(
-				html.sprintf(lang, n > 0 ? ' number="'+n+'"' : '',
-					($txta.val().escapeHtml() || ('/* 이 아래로 코드 입력 */' + "\n" + "\n"))
-				),
-				false
+			html = '<pre highlight%s><code class="%s">%s ' + "\n" + '</code></pre>' + "\n";
+			$editor.paste(html.sprintf(
+				cc === 1 ? ' collapse="true"' : '', lang, $txta.val().escapeHtml() || ('/* 이 아래로 코드 입력 */' + "\n" + "\n")
+				), false
 			);
 		}
 
@@ -119,11 +117,11 @@ if(!defined('__AFOX__')) exit();
 		window.close();
 	}
 
-	if(!$_selem && $_codes && $_codes.length > 0){
+	if($_selem == null && $_codes && $_codes.length > 0){
 		var $lba = $('.code_highlighter_selector').find('>div').eq(0),
 			$lb = $lba.find('label').eq(0);
 		for (var i = 0; i < $_codes.length; i++) {
-			$lb.clone().find('span').text((i + 1) + ': ' + $_codes.eq(i).attr('code-lang'))
+			$lb.clone().find('span').text((i + 1) + ': ' + $_codes.eq(i).attr('class'))
 					.end().find('input').val(i).removeAttr('checked').end().appendTo($lba);
 		}
 	} else {
