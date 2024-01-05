@@ -17,15 +17,15 @@ if(!defined('__AFOX__')) exit();
 <br>
 <h3>사용예 :</h3>
 <pre>
-&lt;pre code-lang="cpp"&gt; 
+&lt;pre highlight&gt;&lt;code class="language-cpp"&gt; 
 /* 이 아래로 코드 입력 */
 
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre code-lang="javascript"&gt; 
+&lt;pre highlight&gt;&lt;code class="language-javascript"&gt; 
 /* 이 아래로 코드 입력 */
 
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 </pre>
 <h3>참고 :</h3>
 <pre>
