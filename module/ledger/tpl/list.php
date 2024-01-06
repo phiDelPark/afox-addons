@@ -61,14 +61,14 @@ $CATE = getCategorys();
 	</footer>
 </section>
 
-<div id="ledger_write_modal" class="modal fade bs-ledger-modal-lg" tabindex="-1" role="dialog" aria-labelledby="ledgerModalTitle">
+<div id="ledger_write_modal" class="modal fade bs-ledger-modal-lg" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
 	<form class="modal-content" method="post" onsubmit="return false" autocomplete="off" data-exec-ajax="ledger.getdocumentform">
 	<input type="hidden" name="success_return_url" value="<?php echo getUrl()?>" />
 	<input type="hidden" name="ev_srl" value="" />
 	  <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		<h4 class="modal-title" id="ledgerModalTitle"><?php echo getLang('new')?></h4>
+		<h4 class="modal-title"><?php echo getLang('new')?></h4>
 	  </div>
 	  <div class="modal-body">
 	  </div>
