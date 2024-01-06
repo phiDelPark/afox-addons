@@ -6,8 +6,8 @@
 (function($) {
 	'use strict';
 
-	$('section.ledger')
-	.on('show.bs.modal', '#ledger_write_modal', function(e) {
+	$('#ledger_write_modal')
+	.on('show.bs.modal', function(e) {
 		var $i = $(this),
 			$f = $i.find('form'),
 			$p = $i.find('.modal-body');
@@ -169,13 +169,13 @@
 
 		$(document).trigger($.Event('submit', { target: $f[0] }));
 	})
-	.on('shown.bs.modal', '#ledger_write_modal', function(){
+	.on('shown.bs.modal', function(){
 		var $p = $(this);
 		$p.find('#id-ev-items').height(
 			$p.find('#ledger-form').height() - $p.find('#ledger-item-form .form-group').eq(0).height() - 42
 		);
 	})
-	.on('hidden.bs.modal', '#ledger_write_modal', function(){
+	.on('hidden.bs.modal', function(){
 		$(this).find('.modal-body').html('');
 	});
 

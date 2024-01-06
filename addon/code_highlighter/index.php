@@ -10,8 +10,8 @@ if($called_position == 'after_disp' && $called_trigger == 'default' && !empty($_
 		addCSS('//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css');
 		addJS('//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js');
 		addJS('//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js');
-		addCSS(_AF_URL_.'addon/code_highlighter/code_highlighter.css');
-		addJS(_AF_URL_.'addon/code_highlighter/code_highlighter.js?n='.(empty($_ADDON['no-number'])?'1':'0').(__DEBUG__?'&'._AF_SERVER_TIME_:''));
+		addCSS(_AF_URL_.'addon/code_highlighter/code_highlighter'. (__DEBUG__ ? '.css?' . _AF_SERVER_TIME_ : '.min.css'));
+		addJS(_AF_URL_.'addon/code_highlighter/code_highlighter'. (__DEBUG__ ? '.js?' . _AF_SERVER_TIME_ : '.min.js?n='.(empty($_ADDON['no-number'])?'1':'0')));
 	}
 }
 
