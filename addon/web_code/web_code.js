@@ -8,10 +8,9 @@
   'use strict';
 
 	$(window).on('load', function() {
-		var js = request_uri + 'addon/web_code/web_code.js',
-			js = $('script[src^="' + js + '?"]:eq(0)');
+		var js = $('script[src^="'+request_uri+'addon/web_code/web_code."]:eq(0)');
 		if( js.length > 0 ) {
-			js = js.attr('src').getQuery();
+			//js = js.attr('src').getQuery();
 			//if((js['w'] || '0') == '1') wrap = true;
 		}
 
