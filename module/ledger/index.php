@@ -9,6 +9,7 @@ function procLedgerDefault($data) {
 
 	if (($is=file_exists($inc_file)) && checkProtect('proc.'.$act)) {
 		require_once $inc_file;
+		$data = array_merge(getModule('@ledger'), $data);
 		return checkProtectData('proc.'.$act, proc($data));
 	} else {
 		return set_error(
@@ -25,6 +26,7 @@ function dispLedgerDefault($data) {
 
 	if (($is=file_exists($inc_file)) && checkProtect('disp.'.$disp)) {
 		require_once $inc_file;
+		$data = array_merge(getModule('@ledger'), $data);
 		return proc($data);
 	} else {
 		return set_error(

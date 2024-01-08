@@ -2,7 +2,6 @@
 if(!defined('__AFOX__')) exit();
 
 function proc($data) {
-	$_MD_CONFIG = getModule('@ledger');
 	$DOC = getDocument($data['ev_srl']);
 	if($ex=get_error()) return set_error($ex->getMessage(), $ex->getCode());
 	$CATE = getCategorys();

@@ -66,7 +66,6 @@ if(!defined('__AFOX__')) exit();
 			(((empty($page)?1:$page)-1)*$count).','.$count,
 			$callback
 		);
-		//debugPrint(DB::lastQuery());
 
 		return setDataListInfo($list, $page, $count, DB::foundRows());
 	}

@@ -10,8 +10,6 @@ addJS(_AF_URL_ . 'module/ledger/tpl/jquery-ui.min.js');
 addJS(_AF_URL_ . 'module/ledger/tpl/ledger'. (__DEBUG__ ? '.js?' . _AF_SERVER_TIME_ : '.min.js'));
 }
 
-$_MD_CONFIG = getModule('@ledger');
-
 // 구버전 sql 용 초기화
 $_DATA['category'] = empty($_DATA['category']) ? null : $_DATA['category'];
 
