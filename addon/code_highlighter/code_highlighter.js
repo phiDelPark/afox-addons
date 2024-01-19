@@ -3,23 +3,31 @@
  * Copyright 2016 afox, Inc.
  * Licensed under the MIT license
  */
-+function ($) {
-  'use strict';
-	$(window).on('load', function() {
-		var js = $('script[src^="'+request_uri+'addon/code_highlighter/code_highlighter."]:eq(0)');
-		if(js.length>0) js = js.attr('src').getQuery();
-		$('pre[highlight][collapse]')
-			.offOn('click', function(e){ $(this).removeAttr('collapse'); });
-		//hljs.configure({languages:['xml','css','javascript']});
-		if(hljs){
-			$('pre[highlight] code').each(
-				function(i, block) {
-					hljs.highlightElement(block);
-				}
-			);
-			if((js['n'] || '1') == '1' && $('pre[highlight] code').length > 0) {
-				hljs.initLineNumbersOnLoad();
+window.addEventListener('load', e => {
+	let js = document.querySelector('script[src^="'+request_uri+'addon/code_highlighter/code_highlighter."]'),
+		line_number = true,
+		wrap = true;
+
+	if(js) {
+		js = js.getAttribute('src').getQuery();
+		line_number = (js['n'] || '1') === '1';
+		wrap		= (js['w'] || '1') === '1';
+	}
+
+	const content_id = '.current_content';
+
+	if(hljs){
+		const
+			highlights = document.querySelectorAll(content_id + ' pre[highlight]');
+
+		highlights.forEach(el => {
+			if(el.hasAttribute('collapse')){
+				el.addEventListener('click', e => el.removeAttribute('collapse'));
 			}
-		}
-	});
-}(jQuery);
+			const code = el.querySelector('code');
+			if(code) hljs.highlightElement(code);
+			if(wrap) el.classList.add('wrap');
+		});
+		if(line_number && highlights.length > 0) hljs.initLineNumbersOnLoad();
+	}
+});

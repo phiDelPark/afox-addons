@@ -3,26 +3,25 @@
  * Copyright 2016 afox, Inc.
  * Licensed under the MIT license
  */
+window.addEventListener('load', e => {
+	let js = document.querySelector('script[src^="'+request_uri+'addon/webcode/webcode."]'),
+		option1 = false;
 
-+function ($) {
-  'use strict';
+	if(js) {
+		js = js.getAttribute('src').getQuery();
+		option1 = (js['n'] || '0') === '1';
+	}
 
-	$(window).on('load', function() {
-		var js = $('script[src^="'+request_uri+'addon/web_code/web_code."]:eq(0)');
-		if( js.length > 0 ) {
-			//js = js.attr('src').getQuery();
-			//if((js['w'] || '0') == '1') wrap = true;
-		}
+	const content_id = '.current_content';
 
-		$('blockquote[web-code="area"]').each(
-			function(i, block) {
-				var $this = $(this);
-				$this.find('button[web-code="run"]')
-				.click(function(e){
-					pop_win(request_uri + 'module/editor/component.php?n=web_code&i=' + i, null, null, 'af_addon_web_code');
-				});
-			}
-		);
+	const webcodes = document.querySelectorAll(content_id + ' blockquote[webcode="group"]');
+	let i = 1;
+	webcodes.forEach(el => {
+		const btn = el.querySelector('button[webcode="run"]');
+		btn.setAttribute('target', i++);
+		btn.addEventListener('click', e => {
+			const idx = e.target.getAttribute('target');
+			pop_win(request_uri + 'module/editor/component.php?n=web_code&i=' + idx, null, null, 'afox_addon_webcode');
+		});
 	});
-
-}(jQuery);
+});

@@ -16,9 +16,23 @@ if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !
 		if (empty($_ADDON['except'])) $_ADDON['except'] = 'img.youtube.com';
 		$except = str_replace("\n", '|', trim($_SERVER['HTTP_HOST'] . "\n" . $_ADDON['except']));
 
+		$mimes = array(
+			'png' => 'image/png',
+			'jpe' => 'image/jpeg',
+			'jpeg' => 'image/jpeg',
+			'jpg' => 'image/jpeg',
+			'gif' => 'image/gif',
+			'bmp' => 'image/bmp',
+			'ico' => 'image/vnd.microsoft.icon',
+			'tiff' => 'image/tiff',
+			'tif' => 'image/tiff',
+			'svg' => 'image/svg+xml',
+			'svgz' => 'image/svg+xml'
+		);
+
 		$content = preg_replace_callback(
 			'/(<img[^>]*?\s?src\s*=\s*["\']?)(https?:[^>"\']*)/i',
-			function ($m) use ($md_id, $wr_srl, $mb_srl, $mb_ipaddress, $except, &$file_count, &$_check) {
+			function ($m) use ($md_id, $wr_srl, $mb_srl, $mb_ipaddress, $except, $mimes, &$file_count, &$_check) {
 				$url = $m[2];
 
 				if(preg_match('/^https?:[\/]+('. $except .')/i', $url)) {
@@ -31,15 +45,15 @@ if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !
 
 					$iname = $parts['filename'];
 					$iext = explode('?', empty($parts['extension']) ? '' : $parts['extension']);
-					$iext = '.' . (empty($iext[0]) ? 'none' : $iext[0]);
+					$iext = strtolower(empty($iext[0]) ? 'none' : $iext[0]);
 
 					// Immediately remove the direct file if it has any kind of extensions for hacking
-					$iext = preg_replace('/\.(php|phtm|phar|html?|cgi|pl|exe|jsp|asp|inc)/i', '$0-x', $iext);
+					$iext = preg_replace('/(php|phtm|phar|html?|cgi|pl|exe|jsp|asp|inc)/i', '$0-x', $iext);
 
-					$upload_name = md5($iname . time() . count($_check)) . $iext;
+					$upload_name = md5($iname . time() . count($_check)) . '.' . $iext;
 					$uploaded_filename = _AF_ATTACH_DATA_ . 'image/' . $md_id . '/' . $wr_srl . '/' . $upload_name;
 
-					$_check[$url] = $url . '" data-error="download-failure';
+					$_check[$url] = $url . '" target="download-failure';
 
 					// 폴더 없으면 만듬
 					$dir = dirname($uploaded_filename);
@@ -71,10 +85,10 @@ if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !
 						if(DB::insert(_AF_FILE_TABLE_, [
 							'md_id'=>$md_id,
 							'mf_target'=>$wr_srl,
-							'mf_name'=>$iname . $iext,
+							'mf_name'=>$iname . '.' . $iext,
 							'mf_upload_name'=>$upload_name,
 							'mf_size'=>filesize($uploaded_filename),
-							'mf_type'=>'image/' . substr($iext, 1),
+							'mf_type'=>empty($mimes[$iext])?'image/none':$mimes[$iext],
 							'mb_srl'=>$mb_srl,
 							'mb_ipaddress'=>$mb_ipaddress,
 							'^mf_regdate'=>'NOW()'
