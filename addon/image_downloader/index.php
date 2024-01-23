@@ -46,7 +46,7 @@ if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !
 					$iname = $parts['filename'];
 					$iext = explode('?', empty($parts['extension']) ? '' : $parts['extension']);
 					$iext = strtolower(empty($iext[0]) ? 'none' : $iext[0]);
-					debugPrint($iext);
+
 					// Immediately remove the direct file if it has any kind of extensions for hacking
 					$iext = preg_replace('/(php|phtm|phar|html?|cgi|pl|exe|jsp|asp|inc)/i', '$0-x', $iext);
 
@@ -99,7 +99,7 @@ if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !
 							'mf_name'=>$iname.'.'.$iext,
 							'mf_upload_name'=>$upload_name,
 							'mf_size'=>$size,
-							'mf_type'=>empty($iinfo['mime'])?'image/none':$iinfo['mime'],
+							'mf_type'=>empty($mimes[$iext])?'image/none':$mimes[$iext],
 							'mb_srl'=>$mb_srl,
 							'mb_ipaddress'=>$mb_ipaddress,
 							'^mf_regdate'=>'NOW()'
