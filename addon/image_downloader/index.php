@@ -46,25 +46,27 @@ if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !
 					$iname = $parts['filename'];
 					$iext = explode('?', empty($parts['extension']) ? '' : $parts['extension']);
 					$iext = strtolower(empty($iext[0]) ? 'none' : $iext[0]);
-
+					debugPrint($iext);
 					// Immediately remove the direct file if it has any kind of extensions for hacking
 					$iext = preg_replace('/(php|phtm|phar|html?|cgi|pl|exe|jsp|asp|inc)/i', '$0-x', $iext);
 
-					$upload_name = md5($iname . time() . count($_check)) . '.' . $iext;
-					$uploaded_filename = _AF_ATTACH_DATA_ . 'image/' . $md_id . '/' . $wr_srl . '/' . $upload_name;
+					$upload_name = md5(count($_check).$iname.time());
+					$upload_path = _AF_ATTACH_DATA_.'image/'.$md_id.'/'.$wr_srl.'/';
 
-					$_check[$url] = $url . '" target="download-failure';
+					$_check[$url]= $url . '" target="download-failure';
 
 					// 폴더 없으면 만듬
-					$dir = dirname($uploaded_filename);
+					$dir = dirname($upload_path.$upload_name);
 					if(!is_dir($dir) && !mkdir($dir, _AF_DIR_PERMIT_, true)) {
 						return $m[1].$_check[$url];
 					}
 
-					// @copy($url, $uploaded_filename);
+					$down_url = empty($mimes[$iext]) ? $url : strtok($url, '?');
+
+					// @copy($url, $upload_path.$upload_name);
 					if(function_exists("curl_init") === true) {
-						$ch = curl_init($url);
-						$fp = fopen($uploaded_filename, 'wb');
+						$ch = curl_init($down_url);
+						$fp = fopen($upload_path.$upload_name, 'wb');
 						curl_setopt($ch, CURLOPT_FILE, $fp);
 						curl_setopt($ch, CURLOPT_HEADER, 0);
 						curl_exec($ch);
@@ -72,33 +74,42 @@ if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !
 						fclose($fp);
 					}
 					else if (function_exists("file_put_contents") === true) {
-						file_put_contents($uploaded_filename, file_get_contents($url));
+						file_put_contents($upload_path.$upload_name, file_get_contents($down_url));
 					}
 
-					if(file_exists($uploaded_filename)) {
-						@chmod($uploaded_filename, _AF_FILE_PERMIT_);
-
-						// 공개 하게되면  크기 체크기능 넣자
+					if(file_exists($upload_path.$upload_name)) {
+						// todo 크기 체크기능 넣자
 						// size-limit-single
 						// size-limit-total
+						@chmod($upload_path.$upload_name, _AF_FILE_PERMIT_);
+
+						$size = filesize($upload_path.$upload_name);
+						$iinfo = getimagesize($upload_path.$upload_name);
+
+						$tmp = $upload_name.'.'.$iinfo['bits'].'.'.$iinfo[0].'x'.$iinfo[1];
+
+						if(rename($upload_path.$upload_name, $upload_path.$tmp)){
+							$uploaded_filename = $upload_path.$tmp;
+							$upload_name = $tmp;
+						}
 
 						if(DB::insert(_AF_FILE_TABLE_, [
 							'md_id'=>$md_id,
 							'mf_target'=>$wr_srl,
-							'mf_name'=>$iname . '.' . $iext,
+							'mf_name'=>$iname.'.'.$iext,
 							'mf_upload_name'=>$upload_name,
-							'mf_size'=>filesize($uploaded_filename),
-							'mf_type'=>empty($mimes[$iext])?'image/none':$mimes[$iext],
+							'mf_size'=>$size,
+							'mf_type'=>empty($iinfo['mime'])?'image/none':$iinfo['mime'],
 							'mb_srl'=>$mb_srl,
 							'mb_ipaddress'=>$mb_ipaddress,
 							'^mf_regdate'=>'NOW()'
 						]) === true) {
 							$mf_srl = DB::insertId();
 							$file_count++;
-							$_check[$url] = './?file=' . $mf_srl;
+							$_check[$url]='./?file='.$mf_srl;
 						} else {
 							unlinkFile($uploaded_filename);
-							$_check[$url] = $url . '" data-error="insert-error';
+							$_check[$url]= $url . '" target="insert-failure';
 						}
 					}
 
