@@ -10,8 +10,3 @@ blockquote[webcode=group] pre:nth-of-type(3) code:before {
 	content: "SCRIPT: ";
     color:brown
 }
-button[webcode=run] {
-    width: 100%;
-    border-width: 1px;
-    border-radius: 3px
-}
