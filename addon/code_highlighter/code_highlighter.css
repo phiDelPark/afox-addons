@@ -22,10 +22,10 @@ pre[collapse][highlight]:after {
 	color: inherit;
 	padding: 0;
 	font-size: 14px;
-	-webkit-transform:scale(7,.7); /* Safari and Chrome */
-	-moz-transform:scale(7,.7); /* Firefox */
-	-ms-transform:scale(7,.7); /* IE 9 */
-	-o-transform:scale(7,.7); /* Opera */
+	/* -webkit-transform:scale(7,.7); Safari and Chrome */
+	/* -moz-transform:scale(7,.7); Firefox */
+	/* -ms-transform:scale(7,.7); IE 9 */
+	/* -o-transform:scale(7,.7); Opera */
 	transform:scale(7,.7); /* W3C */
 }
 
@@ -35,11 +35,13 @@ pre[highlight].wrap {
 
 /* for block of numbers */
 td.hljs-ln-numbers {
+	/*
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+	*/
 	user-select: none;
 	color: #ccc;
 	vertical-align: top;
@@ -48,13 +50,13 @@ td.hljs-ln-numbers {
 
 /* for block of code */
 div.hljs-ln-n {
-	width:2.5em;
+	width: 2.6em;
 	font-size: 1em;
-	text-align: left;
-	padding-right: 0.8em;
-	border-right: 1px solid #CCC;
+	text-align: end;
+	padding-right: .9em;
+	border-right: 1px solid var(--bs-border-color);
 }
 
 td.hljs-ln-code {
-	padding-left: 0.8em;
+	padding-left: .9em;
 }

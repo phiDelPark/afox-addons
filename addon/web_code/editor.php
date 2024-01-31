@@ -1,7 +1,7 @@
 <?php if(!defined('__AFOX__')) exit();
 if(!_AF_EDITOR_NAME_){ $idx = $_GET['i'];
 ?>
-<style id="web_code_style"></style><section id="web_code_panel" style="margin:20px"></section><script id="web_code_script"></script>
+<style id="web_code_style"></style><section id="web_code_panel" style="margin:20px"></section>
 <script>
 	var idx = <?php echo $idx - 1 ?>,
 		blocks = opener.document.querySelectorAll('.current_content blockquote[webcode="group"]'),
@@ -9,11 +9,12 @@ if(!_AF_EDITOR_NAME_){ $idx = $_GET['i'];
 		code2 = blocks[idx].querySelector('code[class^="language-css"]'),
 		code3 = blocks[idx].querySelector('code[class^="language-javascript"]'),
 		style = document.querySelector('#web_code_style'),
-		panel = document.querySelector('#web_code_panel'),
-		script = document.querySelector('#web_code_script');
+		panel = document.querySelector('#web_code_panel');
 	panel.outerHTML = code1.innerText;
 	style.innerHTML = code2.innerText;
+	var script = document.createElement('script')
 	script.innerHTML = code3.innerText;
+	style.parentNode.appendChild(script)
 </script>
 <?php }else{ ?>
 <div class="web_code_editor">
@@ -77,11 +78,11 @@ if(!_AF_EDITOR_NAME_){ $idx = $_GET['i'];
 '+"\n";
 		html = html.sprintf(
 			checkboxs[0].checked === true ? ' collapse="true"' : '',
-			textareas[0].value.escapeHtml() || ' ',
+			textareas[0].value.escapeHTML() || ' ',
 			checkboxs[1].checked === true ? ' collapse="true"' : '',
-			textareas[1].value.escapeHtml() || ' ',
+			textareas[1].value.escapeHTML() || ' ',
 			checkboxs[2].checked === true ? ' collapse="true"' : '',
-			textareas[2].value.escapeHtml() || ' '
+			textareas[2].value.escapeHTML() || ' '
 		)
 		if(node && node.tagName == 'BLOCKQUOTE' && node.hasAttribute('webcode')){
 			node.outerHTML = html

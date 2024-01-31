@@ -65,7 +65,7 @@ if(!defined('__AFOX__')) exit();
 			html = html.sprintf(
 				collapse.checked === true ? ' collapse="true"' : '',
 				lang.value,
-				textarea.value.escapeHtml() || ('/* 이 아래로 코드 입력 */' + "\n" + "\n")
+				textarea.value.escapeHTML() || ('/* 이 아래로 코드 입력 */' + "\n" + "\n")
 			);
 		if (node && node.tagName == 'CODE' && node.parentNode.tagName == 'PRE') {
 			node.parentNode.outerHTML = html;
