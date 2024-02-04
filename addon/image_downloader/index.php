@@ -77,21 +77,14 @@ if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !
 						file_put_contents($upload_path.$upload_name, file_get_contents($down_url));
 					}
 
-					if(file_exists($upload_path.$upload_name)) {
-						// todo 크기 체크기능 넣자
+					$uploaded_filename = $upload_path.$upload_name;
+
+					if(file_exists($uploaded_filename)) {
 						// size-limit-single
 						// size-limit-total
-						@chmod($upload_path.$upload_name, _AF_FILE_PERMIT_);
 
-						$size = filesize($upload_path.$upload_name);
-						$iinfo = getimagesize($upload_path.$upload_name);
-
-						$tmp = $upload_name.'.'.$iinfo['bits'].'.'.$iinfo[0].'x'.$iinfo[1];
-
-						if(rename($upload_path.$upload_name, $upload_path.$tmp)){
-							$uploaded_filename = $upload_path.$tmp;
-							$upload_name = $tmp;
-						}
+						$size = filesize($uploaded_filename);
+						//$iinfo = getimagesize($uploaded_filename);
 
 						if(DB::insert(_AF_FILE_TABLE_, [
 							'md_id'=>$md_id,
@@ -107,6 +100,7 @@ if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !
 							$mf_srl = DB::insertId();
 							$file_count++;
 							$_check[$url]='./?file='.$mf_srl;
+							@chmod($uploaded_filename, _AF_ATTACH_PERMIT_);
 						} else {
 							unlinkFile($uploaded_filename);
 							$_check[$url]= $url . '" target="insert-failure';
