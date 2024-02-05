@@ -27,7 +27,8 @@ if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !
 			'tiff' => 'image/tiff',
 			'tif' => 'image/tiff',
 			'svg' => 'image/svg+xml',
-			'svgz' => 'image/svg+xml'
+			'svgz' => 'image/svg+xml',
+			'webp' => 'image/webp'
 		);
 
 		$content = preg_replace_callback(
