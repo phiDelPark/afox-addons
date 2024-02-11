@@ -1,7 +1,8 @@
-<?php
-if (!defined('__AFOX__')) exit();
+<?php if (!defined('__AFOX__')) exit();
 
-if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !empty($_DATA['wr_srl'])) {
+if($_CALLED['position'] == 'after_proc' && $_CALLED['trigger'] == 'updatedocument')
+{
+	if(empty($_DATA['wr_srl'])) return false;
 
 	$doc = DB::get(_AF_DOCUMENT_TABLE_, 'md_id,wr_content,wr_file,mb_srl,mb_ipaddress', ['wr_srl'=>$_DATA['wr_srl']]);
 	if (!empty($doc)) {
@@ -79,7 +80,6 @@ if ($called_position == 'after_proc' && $called_trigger == 'updatedocument' && !
 					}
 
 					$uploaded_filename = $upload_path.$upload_name;
-
 					if(file_exists($uploaded_filename)) {
 						// size-limit-single
 						// size-limit-total

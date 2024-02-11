@@ -1,5 +1,5 @@
-<?php
-if(!defined('__AFOX__')) exit();
+<?php if(!defined('__AFOX__')) exit();
+/* folder name can't exceed 100 char */
 
 $_ADDON_INFO['version'] = "1.2";
 $_ADDON_INFO['author'] = "aFox";
