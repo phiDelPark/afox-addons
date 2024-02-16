@@ -33,12 +33,12 @@ if($_CALLED['position'] == 'after_proc' && $_CALLED['trigger'] == 'updatedocumen
 		);
 
 		$content = preg_replace_callback(
-			'/(<img[^>]*?\s?src\s*=\s*["\']?)(https?:[^>"\']*)/i',
+			'/(\!\[[^\]]+]\()([^\)\"]+)((?:(?(R)\"|\s\"([^\"]+)\"\))|\)))/us',
 			function ($m) use ($md_id, $wr_srl, $mb_srl, $mb_ipaddress, $except, $mimes, &$file_count, &$_check) {
 				$url = $m[2];
 
 				if(preg_match('/^https?:[\/]+('. $except .')/i', $url)) {
-					return $m[1].$url;
+					return $m[1].$url.$m[3];
 				}
 
 				if(empty($_check[$url])) {
@@ -60,7 +60,7 @@ if($_CALLED['position'] == 'after_proc' && $_CALLED['trigger'] == 'updatedocumen
 					// 폴더 없으면 만듬
 					$dir = dirname($upload_path.$upload_name);
 					if(!is_dir($dir) && !mkdir($dir, _AF_DIR_PERMIT_, true)) {
-						return $m[1].$_check[$url];
+						return $m[1].$_check[$url].$m[3];
 					}
 
 					$down_url = empty($mimes[$iext]) ? $url : strtok($url, '?');
@@ -110,7 +110,7 @@ if($_CALLED['position'] == 'after_proc' && $_CALLED['trigger'] == 'updatedocumen
 
 				}
 
-				return $m[1].$_check[$url];
+				return $m[1].$_check[$url].$m[3];
 			},
 			$doc['wr_content']
 		);

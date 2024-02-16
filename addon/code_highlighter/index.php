@@ -2,12 +2,14 @@
 
 if($_CALLED['position'] == 'after_disp' && $_CALLED['trigger'] == 'default')
 {
+
 	if(!empty($_DATA['wr_content'])) {
 		if(!empty($_ADDON['auto_highlight'])){
-			$_DATA['wr_content'] = preg_replace('/(<pre(?:|\s*(?!(>|highlight)).*?))(>[\s\t\r\n]*<code(?:|\s+[^>]*)>)/mi', '\1 highlight\3', $_DATA['wr_content']);
+			$_DATA['wr_content'] = preg_replace('/(```)([\s\S]+)(```)/U', '\1auto\2\3', $_DATA['wr_content']);
 		}
+
 		/* https://highlightjs.org */
-		if(preg_match('/<pre[^>]*highlight/', $_DATA['wr_content'])){
+		if(preg_match('/^(`{3})[a-zA-Z]+[\s\t]*$/m', $_DATA['wr_content'])){
 			addCSS('//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/'.($_ADDON['highlight_skin']).'.min.css');
 			addJS('//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js');
 			addJS('//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js');

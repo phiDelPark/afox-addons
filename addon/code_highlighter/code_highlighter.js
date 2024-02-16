@@ -4,7 +4,7 @@
  * Licensed under the MIT license
  */
 window.addEventListener('load', e => {
-	let js = document.querySelector('script[src^="'+request_uri+'addon/code_highlighter/code_highlighter."]'),
+	let js = document.querySelector('script[src^="'+request_uri+'addon/code_highlighter/"]'),
 		line_number = true,
 		wrap = true;
 
@@ -18,14 +18,16 @@ window.addEventListener('load', e => {
 
 	if(hljs){
 		const
-			highlights = document.querySelectorAll(content_id + ' pre[highlight]');
-
+			highlights = document.querySelectorAll(content_id + ' pre>code[class^=language-]');
 		highlights.forEach(el => {
-			if(el.hasAttribute('collapse')){
-				el.addEventListener('click', e => el.removeAttribute('collapse'));
+			if(el.parentNode.hasAttribute('collapse')){
+				el.parentNode.addEventListener('click', e => el.removeAttribute('collapse'));
 			}
-			const code = el.querySelector('code');
-			if(code) hljs.highlightElement(code);
+			if(el.classList.contains('language-auto')){
+				el.classList.remove('language-auto')
+				el.classList.add('language-')
+			}
+			hljs.highlightElement(el);
 			if(wrap) el.classList.add('wrap');
 		});
 		if(line_number && highlights.length > 0) hljs.initLineNumbersOnLoad();
