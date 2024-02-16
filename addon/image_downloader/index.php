@@ -37,7 +37,10 @@ if($_CALLED['position'] == 'after_proc' && $_CALLED['trigger'] == 'updatedocumen
 			function ($m) use ($md_id, $wr_srl, $mb_srl, $mb_ipaddress, $except, $mimes, &$file_count, &$_check) {
 				$url = $m[2];
 
-				if(preg_match('/^https?:[\/]+('. $except .')/i', $url)) {
+				if(
+					!preg_match('/^https?:/i', $url)
+					|| preg_match('/^https?:[\/]+('. $except .')/i', $url)
+				) {
 					return $m[1].$url.$m[3];
 				}
 
