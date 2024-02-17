@@ -48,8 +48,9 @@ if(!_AF_EDITOR_NAME_){ $idx = $_GET['i'];
 	const range = selection.getRangeAt(0)
 	let	node = range?.startContainer.parentNode || null
 
-	if (node && node.tagName == 'CODE' && node.parentNode.tagName == 'PRE') {
-		node = node.parentNode?.parentNode || null
+	if (node && node.tagName == 'CODE' || node.tagName == 'PRE') {
+		node = node.parentNode || null
+		if(node.tagName != 'BLOCKQUOTE') node = node.parentNode || null
 		if(node && node.tagName == 'BLOCKQUOTE'){
 			const codes = node.querySelectorAll('code[class^=language-]')
 			if(codes.length === 3){
@@ -63,7 +64,7 @@ if(!_AF_EDITOR_NAME_){ $idx = $_GET['i'];
 	}
 
 	const code_highlighter_run = () => {
-		let html = '<blockquote webcode="group">\
+		let html = '<blockquote>\
 <pre><code class="language-html%s">\
 %s\
 </code></pre>\
