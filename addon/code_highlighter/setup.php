@@ -36,12 +36,12 @@ if(empty($_ADDON['highlight_skin'])) $_ADDON['highlight_skin'] = "androidstudio"
 
 <h5>사용예 :</h5>
 <pre class="border rounded p-3">
-&lt;pre highlight&gt;&lt;code class="language-cpp"&gt; 
+&lt;pre&gt;&lt;code class="language-cpp"&gt; 
 /* 이 아래로 코드 입력 */
 
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre highlight&gt;&lt;code class="language-javascript"&gt; 
+&lt;pre&gt;&lt;code class="language-javascript"&gt; 
 /* 이 아래로 코드 입력 */
 
 &lt;/code&gt;&lt;/pre&gt;

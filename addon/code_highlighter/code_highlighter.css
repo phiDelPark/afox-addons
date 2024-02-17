@@ -2,14 +2,15 @@ pre code.hljs {
 	padding: 0.3em;
 }
 
-pre[collapse][highlight] {
+pre.highlight.collapse {
 	height: 33px;
 	overflow: hidden;
 	cursor: pointer;
 	position: relative;
+	display: block;
 }
 
-pre[collapse][highlight]:after {
+pre.highlight.collapse:after {
 	content: "\25bc";
 	position: absolute;
 	bottom: -5px;
@@ -29,7 +30,7 @@ pre[collapse][highlight]:after {
 	transform:scale(7,.7); /* W3C */
 }
 
-pre[highlight].wrap {
+pre.highlight.wrap {
 	white-space: pre-wrap;
 }
 

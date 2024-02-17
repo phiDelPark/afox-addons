@@ -57,15 +57,17 @@ if(!defined('__AFOX__')) exit();
 
 	if (node && node.tagName == 'CODE' && node.parentNode.tagName == 'PRE') {
 		textarea.value = node.innerText;
-		lang.value = node.getAttribute('class') || 'language-';
+		const tmp = (node.getAttribute('class') || 'language-').split('\\');
+		lang.value = tmp[0];
+		if((tmp[1] || '') == 'collapse') collapse.checked = true;
 	}
 
 	const code_highlighter_run = () => {
-		let html = '<pre highlight%s><code class="%s">%s ' + "\n" + '</code></pre>' + "\n";
+		let html = '<pre><code class="%s%s">%s</code></pre>' + "\n";
 			html = html.sprintf(
-				collapse.checked === true ? ' collapse="true"' : '',
 				lang.value,
-				textarea.value.escapeHTML() || ('/* 이 아래로 코드 입력 */' + "\n" + "\n")
+				collapse.checked === true ? '\\collapse' : '',
+				textarea.value ? textarea.value.trim().escapeHTML() : "\n"
 			);
 		if (node && node.tagName == 'CODE' && node.parentNode.tagName == 'PRE') {
 			node.parentNode.outerHTML = html;

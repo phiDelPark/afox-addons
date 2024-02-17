@@ -20,15 +20,17 @@ window.addEventListener('load', e => {
 		const
 			highlights = document.querySelectorAll(content_id + ' pre>code[class^=language-]');
 		highlights.forEach(el => {
-			if(el.parentNode.hasAttribute('collapse')){
-				el.parentNode.addEventListener('click', e => el.removeAttribute('collapse'));
+			let c = el.getAttribute('class').split('\\')
+			el.parentNode.classList.add('highlight')
+			if((c[1] || '') == 'collapse') {
+				el.parentNode.classList.add('collapse')
+				el.parentNode.addEventListener('click',
+					e => el.parentNode.classList.remove('collapse')
+				)
 			}
-			if(el.classList.contains('language-auto')){
-				el.classList.remove('language-auto')
-				el.classList.add('language-')
-			}
+			el.setAttribute('class', c[0])
 			hljs.highlightElement(el);
-			if(wrap) el.classList.add('wrap');
+			if(wrap) el.parentNode.classList.add('wrap');
 		});
 		if(line_number && highlights.length > 0) hljs.initLineNumbersOnLoad();
 	}

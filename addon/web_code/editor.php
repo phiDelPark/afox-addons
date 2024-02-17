@@ -50,41 +50,40 @@ if(!_AF_EDITOR_NAME_){ $idx = $_GET['i'];
 
 	if (node && node.tagName == 'CODE' && node.parentNode.tagName == 'PRE') {
 		node = node.parentNode?.parentNode || null
-		if(node && node.tagName == 'BLOCKQUOTE' && node.hasAttribute('webcode')){
-			const codes = node.querySelectorAll('code')
+		if(node && node.tagName == 'BLOCKQUOTE'){
+			const codes = node.querySelectorAll('code[class^=language-]')
 			if(codes.length === 3){
-				textareas[0].value = codes[0].innerText
-				textareas[1].value = codes[1].innerText
-				textareas[2].value = codes[2].innerText
-				checkboxs[0].checked = codes[0].parentNode.hasAttribute('collapse')
-				checkboxs[1].checked = codes[1].parentNode.hasAttribute('collapse')
-				checkboxs[2].checked = codes[2].parentNode.hasAttribute('collapse')
+				codes.forEach((el, i)=>{
+					textareas[i].value = codes[i].innerText
+					let c = el.getAttribute('class').split('\\')
+					checkboxs[i].checked = (c[1] || '') == 'collapse'
+				})
 			}
 		}
 	}
 
 	const code_highlighter_run = () => {
 		let html = '<blockquote webcode="group">\
-<pre%s><code class="language-html">\
+<pre><code class="language-html%s">\
 %s\
 </code></pre>\
-<pre%s><code class="language-css">\
+<pre><code class="language-css%s">\
 %s\
 </code></pre>\
-<pre%s><code class="language-javascript">\
+<pre><code class="language-javascript%s">\
 %s\
 </code></pre>\
 </blockquote>\
 '+"\n";
 		html = html.sprintf(
-			checkboxs[0].checked === true ? ' collapse="true"' : '',
+			checkboxs[0].checked === true ? '\\collapse' : '',
 			textareas[0].value.escapeHTML() || ' ',
-			checkboxs[1].checked === true ? ' collapse="true"' : '',
+			checkboxs[1].checked === true ? '\\collapse' : '',
 			textareas[1].value.escapeHTML() || ' ',
-			checkboxs[2].checked === true ? ' collapse="true"' : '',
+			checkboxs[2].checked === true ? '\\collapse' : '',
 			textareas[2].value.escapeHTML() || ' '
 		)
-		if(node && node.tagName == 'BLOCKQUOTE' && node.hasAttribute('webcode')){
+		if(node && node.tagName == 'BLOCKQUOTE'){
 			node.outerHTML = html
 		}else{
 			editor.pasteHtml(html)

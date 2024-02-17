@@ -2,7 +2,7 @@
 
 if($_CALLED['position'] == 'after_disp' && $_CALLED['trigger'] == 'default')
 {
-	if(preg_match('/> ```html\n.+\n> ```css\n.+\n> ```javascript/s', $_DATA['wr_content'])){
+	if(preg_match('/> ```html[\\a-zA-Z_-]*\n>/', $_DATA['wr_content'])){
 		addCSS(_AF_URL_.'addon/web_code/web_code'.(__DEBUG__ ? '' : '.min').'.css');
 		addJS(_AF_URL_.'addon/web_code/web_code'.(__DEBUG__ ? '' : '.min').'.js?');
 	}

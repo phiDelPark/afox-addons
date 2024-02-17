@@ -4,7 +4,7 @@ if(!defined('__AFOX__')) exit();
 
 <h5>사용예 :</h5>
 <pre class="border rounded p-3">
-&lt;blockquote webcode>
+&lt;blockquote>
 &lt;pre>&lt;code class="language-html">
 /* HTML 코드 */
 &lt;/code>&lt;/pre>
