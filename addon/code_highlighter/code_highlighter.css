@@ -3,7 +3,7 @@ pre code.hljs {
 }
 
 pre.highlight.collapse {
-	height: 33px;
+	height: calc(.3em + 31px);
 	overflow: hidden;
 	cursor: pointer;
 	position: relative;
@@ -13,7 +13,7 @@ pre.highlight.collapse {
 pre.highlight.collapse:after {
 	content: "\25bc";
 	position: absolute;
-	bottom: -5px;
+	bottom: -3px;
 	left: 0;
 	display: block;
 	width: 100%;

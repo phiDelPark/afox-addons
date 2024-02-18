@@ -12,6 +12,8 @@ if(!defined('__AFOX__')) exit();
 /* CSS 코드 */
 &lt;/code>&lt;/pre>
 &lt;pre>&lt;code class="language-javascript">
+@import url('https://.../min.js');
+/* 첫 줄에 @import url로 js 사용 가능 */
 /* javascript 코드 */
 &lt;/code>&lt;/pre>
 &lt;/blockquote>

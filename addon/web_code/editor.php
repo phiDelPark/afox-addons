@@ -3,32 +3,33 @@ if(!_AF_EDITOR_NAME_){ $idx = $_GET['i'];
 ?>
 <style id="web_code_style"></style><section id="web_code_panel" style="margin:20px"></section>
 <script>
-	var idx = <?php echo $idx - 1 ?>,
+	let idx = <?php echo $idx - 1 ?>,
 		blocks = opener.document.querySelectorAll('.current_content blockquote[webcode="group"]'),
 		code1 = blocks[idx].querySelector('code[class^="language-html"]'),
 		code2 = blocks[idx].querySelector('code[class^="language-css"]'),
 		code3 = blocks[idx].querySelector('code[class^="language-javascript"]'),
 		style = document.querySelector('#web_code_style'),
-		panel = document.querySelector('#web_code_panel');
-	panel.outerHTML = code1.innerText;
-	style.innerHTML = code2.innerText;
-	var script = document.createElement('script')
-	script.innerHTML = code3.innerText;
-	style.parentNode.appendChild(script)
+		panel = document.querySelector('#web_code_panel')
+	panel.outerHTML = code1.innerText
+	style.innerHTML = code2.innerText
+	let script = document.createElement('script'), importJs = [], n = 0;
+	script.innerHTML = code3.innerText.replace(/@import url\([\'\"](.+)[\'\"]\);$/gm,function(match,g1){importJs[n++]=g1;return''})
+	if(importJs.length > 0){importJs.forEach((url,i)=>{load_script(url).then(()=>{if(i===(n-1)){style.parentNode.appendChild(script)}},()=>{})})
+	} else style.parentNode.appendChild(script)
 </script>
 <?php }else{ ?>
 <div class="web_code_editor">
 	<div style="margin:10px">
 	<label>HTML</label> <input type="checkbox" id="id-html-collapse" style="margin-left:15px"><label for="id-html-collapse">접기/펼치기</label>
-	<textarea style="width:100%;height:250px"></textarea>
+	<textarea style="width:100%;height:200px"></textarea>
 	</div>
 	<div style="margin:10px">
 	<label>CSS</label> <input type="checkbox" id="id-css-collapse" style="margin-left:15px"><label for="id-css-collapse">접기/펼치기</label>
-	<textarea style="width:100%;height:250px"></textarea>
+	<textarea style="width:100%;height:200px"></textarea>
 	</div>
 	<div style="margin:10px">
 	<label>SCRIPT</label> <input type="checkbox" id="id-script-collapse" style="margin-left:15px"><label for="id-script-collapse">접기/펼치기</label>
-	<textarea style="width:100%;height:250px"></textarea>
+	<textarea style="width:100%;height:200px"></textarea>
 	</div>
 	<hr style="margin:20px 0 10px">
 	<div style="margin:10px;text-align:right">
