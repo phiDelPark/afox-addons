@@ -58,12 +58,10 @@ if($_CALLED['position'] == 'after_proc' && $_CALLED['trigger'] == 'updatedocumen
 					$upload_name = md5(count($_check).$iname.time());
 					$upload_path = _AF_ATTACH_DATA_.'image/'.$md_id.'/'.$wr_srl.'/';
 
-					$_check[$url]= $url . '" target="download-failure';
-
 					// 폴더 없으면 만듬
 					$dir = dirname($upload_path.$upload_name);
 					if(!is_dir($dir) && !mkdir($dir, _AF_DIR_PERMIT_, true)) {
-						return $m[1].$_check[$url].$m[3];
+						return $m[1].$url.' "download-failure")';
 					}
 
 					$down_url = empty($mimes[$iext]) ? $url : strtok($url, '?');
@@ -99,7 +97,7 @@ if($_CALLED['position'] == 'after_proc' && $_CALLED['trigger'] == 'updatedocumen
 							'mf_type'=>empty($mimes[$iext])?'image/none':$mimes[$iext],
 							'mb_srl'=>$mb_srl,
 							'mb_ipaddress'=>$mb_ipaddress,
-							'^mf_regdate'=>'NOW()'
+							'mf_regdate(=)'=>'NOW()'
 						]) === true) {
 							$mf_srl = DB::insertId();
 							$file_count++;
@@ -107,10 +105,9 @@ if($_CALLED['position'] == 'after_proc' && $_CALLED['trigger'] == 'updatedocumen
 							@chmod($uploaded_filename, _AF_ATTACH_PERMIT_);
 						} else {
 							unlinkFile($uploaded_filename);
-							$_check[$url]= $url . '" target="insert-failure';
+							return $m[1].$url.' "insert-failure")';
 						}
 					}
-
 				}
 
 				return $m[1].$_check[$url].$m[3];
