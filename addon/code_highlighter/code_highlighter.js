@@ -33,6 +33,7 @@ window.addEventListener('load', e => {
 				)
 			}
 			el.setAttribute('class', c[0])
+			el.innerHTML = el.innerHTML.replace(/<br[^>]*>/gi, "\n")
 			hljs.highlightElement(el)
 			if(pre_wrap) el.parentNode.classList.add('wrap')
 		})
